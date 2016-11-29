@@ -9,7 +9,7 @@
       zhiyi = ['a','b','c','d']
     ```
     
-    * 新增 append()
+   * 新增 append()
       
       ```python
         zhiyi.append('e')
@@ -18,7 +18,7 @@
       ```
       [a,b,c,d,e,f,g]
       
-    *  删除 pop()
+   *  删除 pop()
     
      ```python
        zhuyi.pop('a')
@@ -27,7 +27,7 @@
      ```
      [d,e,f,g]
      
-     * 插入 insert()
+   * 插入 insert()
      
      ```python
         zhuyi.insert(0, 'a')
@@ -36,7 +36,7 @@
      ```
      [a,b,c,d,e,f,g]
      
-     * 替换 
+   * 替换 
      
      ```python
         zhuyi[0] = 'q'
@@ -45,6 +45,29 @@
      ```
      [q,w,e,d,e,f,g]
      
+     * 元组tuple = (1,2,3...)
+     
+     tuple,与list类似，但是tuple一旦生成初始化就不能修改。
+     
+     ```python
+        
+        zytupleyi = ('a','b','c')
+     ```
+     
+     [a,b,c]
+     
+     * 字典dict，zydict = {1:'a',2:'b',3:'c'}
+     
+     ```python
+     
+        zydict[4] = 'd'
+    ```
+    
+   {1:'a',2:'b',3:'c',4:'d'}
+   
+        
+          
+        
      
      
     
