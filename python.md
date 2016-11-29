@@ -58,7 +58,7 @@
      
      * 字典dict，zydict = {1:'a',2:'b',3:'c'}
      
-      * dict增加一个key：value
+      * 增加 zydict[key] = value
        
        ```python
 
@@ -67,7 +67,7 @@
 
       {1:'a',2:'b',3:'c',4:'d'}
       
-      * dict删除 zydict.pop()
+      * 删除 zydict.pop()
        
        ```python
        
@@ -76,7 +76,7 @@
        ```
       { 1:'a',2:'b',3:'c'}
        
-      * dict替换 zydict[key] = 'value'
+      * 替换 zydict[key] = 'value'
       
         ```python
         
@@ -85,13 +85,40 @@
        ```
        {1:'a',2:'b',4:'d'}
        
-       * dict查找 zydict[key]
+       * 查找 zydict[key]
        
        ```python
        
           zydict[1]
        ```
           b
+          
+     * set
+     
+     set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key.
+     
+     zhuyi = zhuyi([1,2,3])
+      
+      * 增加 zhuyi.add()
+      
+        ```python
+        
+           zhuyi.add(4)
+        ```
+        set([1,2,3,4])
+        
+        * 删除 zhuyi.remove()
+        
+        ```python
+        
+           zhuyi.remove(4)
+        ```
+        set([1,2,3])
+      
+        
+        
+           
+      
        
  
           
