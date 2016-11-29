@@ -58,15 +58,43 @@
      
      * 字典dict，zydict = {1:'a',2:'b',3:'c'}
      
-     ```python
-     
-        zydict[4] = 'd'
-    ```
-    
-   {1:'a',2:'b',3:'c',4:'d'}
-   
+      * dict增加一个key：value
+       
+       ```python
+
+           zydict[4] = 'd'
+       ```
+
+      {1:'a',2:'b',3:'c',4:'d'}
+      
+      * dict删除 zydict.pop()
+       
+       ```python
+       
+           zydict.pop(4)
+           
+       ```
+      { 1:'a',2:'b',3:'c'}
+       
+      * dict替换 zydict[key] = 'value'
+      
+        ```python
         
-          
+           zydict[3] = 'd'
+           
+       ```
+       {1:'a',2:'b',4:'d'}
+       
+       * dict查找 zydict[key]
+       
+       ```python
+       
+          zydict[1]
+       ```
+          b
+       
+ 
+          
         
      
      
