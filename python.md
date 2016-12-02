@@ -18,14 +18,14 @@
       ```
       [a,b,c,d,e,f,g]
       
-   *  删除 pop()
+   *  删除 pop()
     
-     ```python
+      ```python
        zhuyi.pop('a')
        zhuyi.pop('b')
        zhuyi.pop('c')
-     ```
-     [d,e,f,g]
+      ```
+      [d,e,f,g]
      
    * 插入 insert()
      
@@ -45,7 +45,7 @@
      ```
      [q,w,e,d,e,f,g]
      
-     * 元组tuple = (1,2,3...)
+  * 元组tuple = (1,2,3...)
      
      tuple,与list类似，但是tuple一旦生成初始化就不能修改。
      
@@ -56,9 +56,9 @@
      
      [a,b,c]
      
-     * 字典dict，zydict = {1:'a',2:'b',3:'c'}
+  * 字典dict，zydict = {1:'a',2:'b',3:'c'}
      
-      * 增加 zydict[key] = value
+   * 增加 zydict[key] = value
        
        ```python
 
@@ -67,7 +67,7 @@
 
       {1:'a',2:'b',3:'c',4:'d'}
       
-      * 删除 zydict.pop()
+   * 删除 zydict.pop()
        
        ```python
        
@@ -76,7 +76,7 @@
        ```
       { 1:'a',2:'b',3:'c'}
        
-      * 替换 zydict[key] = 'value'
+   * 替换 zydict[key] = 'value'
       
         ```python
         
@@ -85,7 +85,7 @@
        ```
        {1:'a',2:'b',4:'d'}
        
-      * 查找 zydict[key]
+   * 查找 zydict[key]
        
        ```python
        
@@ -93,7 +93,7 @@
        ```
           b
  
-      * 遍历 a_dict = {'a': 1, 'b': 2, 'c': 3} 
+   * 遍历 a_dict = {'a': 1, 'b': 2, 'c': 3} 
          
          * for in
          
@@ -124,13 +124,13 @@
          
           
           
-     * set
+  * set
      
      set和dict类似，也是一组key的集合，但不存储value。由于key不能重复，所以，在set中，没有重复的key.
      
      zhuyi = zhuyi([1,2,3])
       
-      * 增加 zhuyi.add()
+   * 增加 zhuyi.add()
       
         ```python
         
@@ -138,7 +138,7 @@
         ```
         set([1,2,3,4])
         
-        * 删除 zhuyi.remove()
+   * 删除 zhuyi.remove()
         
         ```python
         
