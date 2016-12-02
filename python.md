@@ -85,13 +85,44 @@
        ```
        {1:'a',2:'b',4:'d'}
        
-       * 查找 zydict[key]
+      * 查找 zydict[key]
        
        ```python
        
           zydict[1]
        ```
           b
+ 
+      * 遍历 a_dict = {'a': 1, 'b': 2, 'c': 3} 
+         
+         * for in
+         
+         ```python
+            
+            for i in a_dict:
+             print i,a_dict[i]
+            
+         ```
+         
+         * items()
+          
+         ```python 
+         
+            for k, v in items():
+             print k, v
+            
+         ```
+         
+         * iteritems()
+         
+         ```python
+         
+           for k,  v in L.iteritems():
+            print k,v
+            
+         ```
+         
+          
           
      * set
      
@@ -116,6 +147,9 @@
         set([1,2,3])
 
 ##条件与循环 
+
+
+
       
       
         
