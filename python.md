@@ -324,7 +324,102 @@
       
       ```python
       
+      * 默认参数
       
+      ```python
+      
+      def power(x):
+        ruturn x * x
+      print power(5)
+      print power(15)
+        
+      ```
+      25
+      225
+      
+      ```python
+      
+      def power(x, n=2):
+        s = 1
+        while n > 0:
+          n = n - 1
+          s = s * x
+        return
+        print power(5, 2)
+        print power(5,3)
+      
+      
+      ```
+      25
+      125
+      
+      * 可变参数 *
+      
+      ```python
+      
+      def calc(*numbers):
+        sum = 0
+        for n in numvers:
+          sum = sum + n * n
+        return sum
+        print calc(1, 2)
+        print calc()
+        
+        ```
+        5
+        0
+        
+       *list
+        
+       * list、tpule，调用可变参数
+       
+       ```python
+       
+       nums = [1,2,3]
+       print calc(nums[0], nums[1], nums[2])
+       
+       ```
+       14
+       
+       ```python
+       
+       nums = [1,2,3]
+       print calc(*nums)
+       
+       ```
+       14
+       
+      * 关键字参数 **
+      ```python
+      
+      def person(name, age, **kw):
+        print 'name:', name, 'age:',age, 'ather:', kw
+      print person('Michael', 30, city = 'beijing', gender = 'M')
+      
+      ```
+      name: Michael age : 30 other: {'city': 'beijing', 'gender:' 'M'}
+      
+      
+      
+      
+      
+       
+      
+      
+       
+       
+       
+       
+       
+       
+       
+      
+      
+      
+      
+      
+      
+      
       
       
     
