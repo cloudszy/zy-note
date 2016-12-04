@@ -148,9 +148,9 @@
 
 ## 条件与循环
 
-      * if、else语句，如果if判断是False，不要执行if的内容，把else执行
+      * if、else语句，如果if判断是False，不要执行if的内容，把else执行
       
-      ```python
+         ```python
       
         age = 3
         if age >= 18:
@@ -160,7 +160,7 @@
           'your age is', age
           'teemager'
 
-      ```
+          ```
       your age is,age
       teemager
       
