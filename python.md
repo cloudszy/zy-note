@@ -102,6 +102,9 @@
               print i,a_dict[i]
 
           ```
+          a 1
+          c 3
+          b 2
 
           * items()
 
@@ -506,8 +509,59 @@
       ```
       (0,1,2)
       
-      * 
+      * 字符串、Unicode字符串也可以看做是一种list.
       
+      ```python
+      
+      print 'ABCDEFG'[:3]
+      
+      print 'ABCDEGF'[: : 2]
+      
+      ```
+      'ABC'
+      'ACEG'
+      
+      * 迭代 给list、tuple通过for循环来遍历这个list、tuple，（iteration） for...in
+      
+      ```python
+      
+      d = {'a': 1, 'b': 2, 'c': 3}
+      for key in d:
+        print key
+        
+     ```
+     a
+     b
+     c
+     
+     * 判断对象是否可以迭代 collections模块的iterable
+     
+     ```python
+     
+     from collections import Iterable
+     
+     print isinstance('abc', Iterable) #str是否可迭代
+     
+     ```
+     True
+     
+     ```python
+     
+     print isinstance([1,2,3], Iterable) #list是否可迭代
+     
+     ```
+     Ture
+     
+     print isinstance(123, Iterable) #整数是否可迭代
+     
+     False
+  
+        
+      
+      
+      
+      
+      
       
       
       
