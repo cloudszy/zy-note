@@ -390,6 +390,7 @@
        14
        
       * 关键字参数 **
+      
       ```python
       
       def person(name, age, **kw):
@@ -398,6 +399,49 @@
       
       ```
       name: Michael age : 30 other: {'city': 'beijing', 'gender:' 'M'}
+      
+      * 关键词参数调用
+        
+        ```python 
+        
+        kw = {'city': 'beijing', 'job': 'Engineer'}
+        print person('Jack', 24, **kw)
+        
+        ```
+        Jack age : 24 othre : {'city': 'beijing', 'job': Engineer}
+        
+      * 参数组合 (顺序 必须参数、默认参数、可变参数、关键词参数) 
+      
+      ```python 
+      
+      def func(a,b,c = 0, *args, **kw)
+        print 'a =', a, 'b =', b, 'c =', c, 'args =', args, 'kw =', kw
+      print func(1, 2)
+      print func(1, 2, c = 3)
+      print func(1, 2, 3, 'a', 'b')
+      print func(1, 2, 3, 'a', 'b', x = 99)
+      
+      ```
+      a = 1 b = 2 c = 0 args = () kw = {}
+      a = 1 b = 2 c = 3 args = () kw = {}
+      a = 1 b = 2 3 args = ('a', 'b') kw = {}
+      a = 1 b = 2 3 arhs = ('a', 'b') kw = {'x': 99}
+      
+     ```python
+     
+     agrs = (1,2,3,4)
+     kw = {'x': 99}
+     print func(*args, **kw)
+     
+     ```
+     a = 1 b = 2 c = 3 args = (4,) kw = {'x': 99}
+     
+      
+      
+      
+      
+      
+      
       
       
       
