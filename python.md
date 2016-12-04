@@ -161,8 +161,177 @@
           'teemager'
 
           ```
-      your age is,age
-      teemager
+         your age is,age
+         teemager
+         
+      * elif细致判断
+         
+         ```python
+         
+            age = 3
+            if age >= 18:
+              print 'adult'
+                age >= 6:
+                print 'teenager'
+            else:
+                print 'kid'
+                
+         ```
+         kid
+         
+      * 循环 for...in
+      
+      ```python
+      
+         names = ['Michael', 'Bob', 'Tracy']
+         for name in names :
+            print name
+            
+      ```
+      Michael
+      Bob
+      Tracy
+      
+      ```python
+      
+         sum = 0
+         for x in range(101):
+          sum = sum + x
+         print sum
+         
+      ```
+      5050
+      
+      * while循环，条件满足不断循环，条件不满足时退出循环
+      
+      ```python
+      
+        sum = 0
+        n = 99
+        while n > 0:
+          sum = sum + n
+          n =n - 2
+        print sum
+        
+      ```
+      2500
+      
+      * raw_input,结合int()装换整形
+      
+      ```python
+      
+         birth = (raw_input('birth:1982'))
+         if birth < 2000:
+          print '00前'
+         else:
+          print '00后'
+          
+      ```
+      00前
+
+##函数篇
+
+      * 调用函数
+     
+     ```python
+      
+      abs(100)
+      abs(-20)
+      abs(12.34)
+
+      ```
+      100
+      20
+      12.34
+      
+      * 比较函数 cmp(x,y)
+     
+     ```python
+     
+        cmp(1,2)
+        cmp(2,1)
+        cmp(3,3)
+        
+     ```
+         -1
+          1
+          0
+          
+      * 数据类型装换
+      
+      ```python
+      
+      int('123')
+      int(12.34)
+#      float('12.34')
+      str(1.23)
+      unicode(100)
+      bool(1)
+      bool('')
+      
+      ```
+      123
+      12
+      12.34
+      '1.23'
+      u'100'
+      Ture
+      False
+
+##定义函数
+
+      * 空函数 pass
+      
+      ```python
+      
+        def nop():
+        pass
+        
+      ```
+      
+      * 参数检查：数据类型检查 isinstance
+      
+      ```python
+      
+         def my_abs(x):
+          if not isinstance(x, (int, float))
+            raise TypeError('bad operand type')
+           if x >= 0:
+            return x
+           else:
+            retnrn - x
+            
+      ```
+      my_abs('A')
+      Traceback (most recent call last):
+      File "<stdin>", line 1, in <module>
+      File "<stdin>", line 3, in my_abs
+      TypeError: bad operand type    
+      
+      * 返回多个值,形参，实参
+      
+      ```python 
+      
+      def move(x, y, step, angle=0):
+       nx = x + step * math.cos(angle)
+       ny = y - step * math.sin(angle)
+       return nx, ny
+      x,y = move(100, 100, 60, math.pi/6)
+      print x, y
+      
+      ```
+      151,961524227 70.0
+      
+      ```python
+      
+      
+      
+      
+    
+      
+      
+      
+      
       
 
 
