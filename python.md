@@ -436,7 +436,84 @@
      ```
      a = 1 b = 2 c = 3 args = (4,) kw = {'x': 99}
      
-      * 递归参数 
+      * 递归参数 fact(n) 自己调用自己，如果没有遇到退出的条件，会一直自己调用自己.
+      
+      ```python
+      
+      def fact(n):
+        if n == 1:
+          return 1
+        return n * fact(n - 1)
+        print fact(1)
+        print fact(5)
+        
+      ```
+      1
+      120
+      
+      * 高级特性
+      
+      ```python
+      
+      L = []
+      n = 1
+      while n <= 99:
+        L.append(n)
+        n = n + 2
+        
+      ```
+      [1,3,5,7,...99]
+      
+      * 切片 取N个元素
+      
+      ```python
+      L = ['Michael', 'Sarah', 'Tracy', 'Bob', 'Jack']
+      r = []
+      n = 3
+      for i in range(n):
+        r.append(L[i])
+      print r
+      
+      print L[0 : 3]
+      
+      ```
+      ['Michael', 'Sarah', 'Tracy']
+     
+      ['Michael', 'Sarah', 'Tracy']
+      
+      ```python
+      
+      L = range(100)
+      print L[:10]
+      print L[-10:]
+      print L[10 : 20]
+      print L[: 10 : 2]
+      print L[: : 5]
+      
+      ```
+      [0,1,2,3,4,5,6,7,8,9]
+      [90,91,92,93,94,95,96,97,98,99]
+      [10,,11,12,13,14,15,16,17,18,19]
+      [0,2,4,6,8]
+      [0,5,10,15,20,25,30,35,40,45,50...95]
+      
+      * tuple也是一种list，唯一区别tuple不可变.
+      
+      ```python
+      
+      print (0,1,2,3,4,5,6)[:3]
+      
+      ```
+      (0,1,2)
+      
+      * 
+      
+      
+      
+      
+    
+      
+      
      
       
       
