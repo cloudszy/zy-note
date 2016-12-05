@@ -7,7 +7,10 @@
 
          zhiyi = ['a','b','c','d']
       ```
+    [x * x for x in range(1, 11)]    
     
+
+[x * x for x in range(1, 11) if x % 2 == 0]   
       * 新增 append()
 
        ```python
