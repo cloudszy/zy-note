@@ -110,7 +110,7 @@
 
           ```python 
 
-             for k, v in items():
+             for k, v in a_dictitems():
               print k, v
 
           ```
@@ -119,7 +119,7 @@
 
           ```python
 
-            for k,  v in L.iteritems():
+            for k,  v in a_dict.iteritems():
              print k,v
 
           ```
@@ -556,7 +556,308 @@
      
      False
   
+     * list变成索引-元素对 enumerate
+     
+     ```python
+     
+     for i, value in enumerate(['A', 'B', 'C']):
+      print i, value
+      
+     ```
+     0 A
+     1 B
+     2 c
+     
+     ```python
+     
+     for x, y in [(1, 1), (2, 4), (3, 9)]:
+      print x, y
+      
+     ```
+     1 1
+     2 4
+     3 9
+    
+    * 任何可迭代对象都可以作用于for循环，包括我们自定义的数据类型，只要符合迭代条件，就可以使用for循环 
+    
+    * 列表生成器 List Comprehensions
+    
+     ```python
+     
+     print range(1, 11)
+     
+     ```
+     [1,2,3,4,5,6,7,8,9,10]
+     
+     ```python
+     
+     L = []
+     for x in range(1, 11):
+      L.append(x * x)
+     print L
+     
+     ```
+     [1,4,9,16,25,36,49,64,81,100]
+     
+     ```python
+     
+     print [x * x for x in range(1, 11)]
+     
+     ```
+     [1,4,9,16,25,36,49,64,81,100]
+     
+     ```python
+     
+     print [x * x for x in range(1, 11) if x % 2 == 0]
+     
+     ```
+     [4, 16, 36, 64, 100]
+     
+     ```python
+     
+     print [m = n for m in 'ABC' for n in 'XZY']
+     
+     ```
+     ['AX', 'AY', 'AZ', 'BX', 'BY', 'BZ', 'CX', 'CY', 'CZ']
+     
+     * for循环可以同时使用两个甚至多个变量
+     
+     ```python
+     
+     d = {'x': 'A', 'y': 'B', 'z': 'C'}
+     for k, v in d.iteritems():
+      print k, '=', v
+      
+      ```
+      y = B
+      x = A
+      z = C
+      
+      ```python
+      
+      d = {'x': 'A', 'y': 'B', 'z': 'C'}
+      [k  + '=', v for k, v in d.iteritems()]
+      
+      ```
+      ['y=B', 'x=A', 'z=C']
+      
+      * 把一个list中所有的字符串变成小写
+      
+      ```python
+      
+      L = ['hello', 'world', 'IBM', 'Apple']
+      print [s.lower() for s in L]
+      
+      ```
+      ['hello', 'world', 'ibm', 'apple']
+      
+      
+      * 运用列表生成式，可以快速生成list，可以通过一个list推导出另一个list
+      
+      *  判断一个变量是不是字符串 内建函数isinstance
+      
+      ```python
+      
+      x = 'abc'
+      y = 123
+      print isinstance(x, str)
+      print isinstance(y, str)
+      
+      ```
+      True
+      False
+      
+      ```python
+      
+      L = ['Hello', 'World', 18, 'Apple', None]
+      print [s.lower() if isinstance(s, str) else s for s in L]
+      
+      ```
+      ['hello', 'world', 18, 'apple', None]
+      
+      * 生成器 一边循环一边计算的机制，称为生成器（Generator）
+      
+      ```python
+      
+      L = [x * x for x in range(10)]
+      print L
+      g = (x * x for x in range(10))
+      print g
+      
+      ```
+      [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+      <generator object <genexpr> at 0x104feab40>
+
+      * 创建L和g的区别仅在于最外层的[]和()，L是一个list，而g是一个generator
+       +
+      * 斐波拉契数列 （Fibonacci） 1，1，2，3，5，8，13，21，34...
+      
+      ```python
+      
+      def fib(max):
+        n, a, b = 0, 0, 1
+        while n < max:
+          print b
+          a, b = b, a + b
+          n = n + 1
+        print fib(6)
+      
+      ```
+      1
+      1
+      2
+      3
+      5
+      8
+      
+      * yield
+      
+      ```python
+      
+      def fib(max):
+        n, a, b = 0, 0, 1
+        while n < max:
+         yield b
+          a, b = b, a + b
+          n = n + 1
+        print fib(6)
         
+      ```
+      <generator object fib at 0x104feaaa0>
+      
+      * 函数式编程 Functional Prongramming
+      
+      * 高阶函数 Higher-order function
+      
+      * 变量可以指向函数
+      
+      ```python
+      
+      print abs(-10)
+      print abs
+      
+      ```
+      10
+      <built-in function abs>
+      
+      * abs(-10)是函数调用，而abs是函数本身
+      
+      ```python
+      
+      x = abs(-10)
+      print x
+      f = abs
+      f
+      
+      ```
+      10
+      <built-in function abs>
+      
+      * 变量指向函数
+      
+      ```python
+      
+      f = abs
+      print f(-10)
+      
+      ```
+      10
+      
+      * 函数名字也是变量
+      
+      ```python
+      
+      abs = 10
+      print abs(-10)
+      
+      ```
+      报错
+      
+      * 传入函数 既然变量可以指向函数，函数的参数能接收变量，那么一个函数就可以接收另一个函数作为参数，这种函数就称之为高阶函数
+      
+      ```python
+      
+      def add(x, y, f):
+        return f(x) + f(y)
+      print add(-5, 6, abs)
+      
+      ```
+      11
+      
+      * map map()函数接收两个参数，一个是函数，一个是序列，map将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回
+      
+        ```python
+        
+        def f(x):
+          return x * x
+        print map(f, [1,2,3,4,5,6,7,8,9])
+        
+        ```
+        [1,4,9,16,25,36,49,64,81]
+        
+        
+        map()传入的第一个参数是f，即函数对象本身
+        
+        ```python
+        
+        print map(str, [1,2,3,4,5,6,7,8,9])
+        
+        ```
+        ['1', '2', '3', '4',...'9']
+        
+        * reduce 把一个函数作用在一个序列[x1, x2, x3...]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算
+        
+        ```python
+        
+        def add(x, y):
+          return x + y
+        print reduce(add, [1,3,5,7,9])
+        
+        ```
+        25
+        
+        ```python
+        
+        def fn(x, y):
+          return x * 10 + y
+        print reduce(fn, [1,3,5,7,9])
+        
+        ```
+        13579
+        
+        ```python
+        
+        def fx(x, y) :
+          return x * 10 + y
+          
+        def char2num(s):
+          return {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}[s]
+        print(fn, map(char2num, '13579')) 
+        
+        ```
+        13579
+
+          
+        
+        
+        
+        
+        
+        
+          
+          
+      
+      
+      
+      
+      
+      
+      
+      
+   
+     
+    
+    
       
       
       
