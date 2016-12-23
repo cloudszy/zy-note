@@ -1,1 +1,126 @@
-##线程
+## 线程、进程篇
+
+        1.对于系统来说，一个任务就是一个进程，一个进程至少有一个线程
+        2.实现多任务有3种方式，多进程模式、多线程模式、多进程加多线程模式。
+        3.线程是最小的折行单元，如何调度进程和线程，完全由系统决定，程序自己不能决定什么时候执行，执行多长时间。
+        
+        * 多进程 
+        
+          1.Unix/Linux操作系统提供了一个fork()系统调用，fork()函数调用一次返回2次。系统把当前进程(父进程)复制一份(为子进程)
+          2.子进程永远返回0，而父进程则返回子进程的ID(系统编号)。
+          3.父进程可以fork出多个子进程，父进程记住每个子进程的ID，而子进程调用getppid则可以拿到父进程的ID
+        
+          # multiprocess.py
+        
+          import os # 导入系统模块
+          
+          print 'Process (%s) start...' % os.getpid()  # 打印一个（获取当前系统进程，父进程）
+          
+          pid = os.fork() # 复制一个子进程
+          
+          if pid == 0: # 子进程等于0时
+            
+            print 'I am child process (%s) and my parent is %s.' % (os.getpid(), os.getppid) # 子进程返回0，继续执行，获取子进程、父进程
+            
+          else:
+          
+            print 'I (%s) just created a child proess (%s).' % (os.getpid(), pid) # 获取当前系统进程ID和子进程。
+            
+            
+        # multiprocessing 多进程包
+        
+          1.Windows没有fork调用，需要用到multiprocessing模块(跨平台的多进程模块)
+          2.multiprocessing模块提供了一个Process类代表一个进程对象
+          
+          * from multipocessing import Process
+            
+            import os
+            
+            def run_proc(name):
+              
+              print 'run chid process %s (%s)...' % (name, os.getpid())
+              
+             if __name__=='__main__':
+              
+                print 'Parent process %s.' % os.getpid()
+                
+                p = Process(target = run_proc, args = ('test',))
+                
+                print 'Process will start.'
+                
+                p = start()
+                
+                p.join()
+                
+                print 'Process end.'
+                
+                # 1.创建子进程时，只要传入一个执行函数和函数参数，创建一个Process实例，用start()方法启动
+                # 2.join()方法可以等待子进程结束后再继续往下运行，通常用于进程间的同步。
+                
+                
+              # Pool 进程池
+              
+                * from multiprocessing import Pool
+                
+                  import os, time, random       # 系统 时间 随机 模块
+                  
+                  def long_time_task(name):
+                  
+                    print 'Run task %s (%s)...' % (name, os.getpid())       # 打印一个(当前进程的名字)
+                    
+                    start = time.time()      # 起始时间
+                    
+                    time.sleep(random.random() * 3) # 休眠时间随机 
+                    
+                    end = time.time（）  # 结束时间
+                    
+                    print 'Task %s runs %0.2f seconds.' % (name, (end  - start))  # 打印（名字，结束时间-起始时间）
+                    
+                   if __name__=='__main__':
+                    
+                      print 'Parent process %s.' % os.getpid()  # 打印 当前进程ID
+                    
+                      p = pool()    # 把pool赋值给变量p
+                    
+                      for i in range(5):  # 循环变量5次
+                        
+                         p.apply_async(long_time_task, args = (i,))  # 
+                         
+                      print 'Waiting for all subprocesses done...'
+                      
+                      p.close()
+                      
+                      p.join()
+                      
+                      print 'ALL subprocesses done.'
+                      
+                      
+                      
+                    
+                    
+                    
+        
+            
+            
+            
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+        
+        
