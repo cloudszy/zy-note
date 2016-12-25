@@ -250,7 +250,26 @@
             
             ``` 
             
-           
+            1.dumps()方法返回一个str,dump方法作用在一个文件上
+            2.loads()方法返回一个str序列化，load()方法则把一个文件反序列化
+            
+            ```python
+            
+            json_str = '{"age": 20, "score": 88, "name": "Bob"}'
+            
+            json.loads(json_str)
+            
+            ```
+            
+            {u'age': 20, u'score': 88, u'name': u'Bob'}
+            
+            1.反序列化所得到的所有字符串默认都是unicode而不是str
+            2.JSON标准UTF-8
+            
+            
+         * JSON进阶
+         
+         
             
             
              
