@@ -1,1 +1,209 @@
+ 
+##高级特性 
 
+        * 高级特性
+                
+           ```python
+                    
+           L = []
+                    
+           n = 1
+                    
+           while n <= 99:
+                    
+           L.append(n)
+                        
+           n = n + 2
+                      
+           ```
+           打印100以内的奇数 
+                    
+        
+        * 切片 
+        
+            ```python
+         
+            L = range(100)
+            
+            print L[: 10]
+            
+            ptint L[-10:]
+            
+            print L[10: 20]
+            
+            print L[: 10 :2]
+            
+            print L[: : 5]
+            
+            print L[:]
+            
+            ```
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            [90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+            [10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+            [0, 2, 4, 6, 8]
+            [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95]
+            [0, 1, 2, 3, ..., 99]
+            
+            typle也是一种list，唯一区别是tuple是不可变的，操作结果依旧是tuple
+            
+            ```python
+            
+            (0, 1, 2, 3, 4, 5)[: 3]
+            
+            ```
+            (0,1,2)
+            
+            字符串和Unicode也可以看做一种list
+            
+            ```python
+            
+            print 'ABCDEFG'[: 3]
+            
+            print 'ABCDEFG'[: : 2]
+            
+            ```
+            'ABC'
+            'ACEG'
+            
+            小结：有了切片操作，很多地方的循环就不在需要了
+            
+            
+        *  迭代(Iteration),list/tpule,可以通过for循环来遍历这个list、tuple
+        
+            ```python
+            
+            d = {'a': 1, 'b': 2, 'c': 3}
+            
+                for key in d:
+                
+                    print key                  # 默认迭代key
+                    
+                for value in d.itervalues():   # 只迭代value
+                
+                    print value
+                    
+                for k, v in d.iteritems():     # 同时迭代k，v
+                
+                    print k, v
+                    
+            ```
+            a
+            c
+            b
+            
+            1
+            3
+            2
+            
+            a  1
+            c  3
+            b  2
+            
+            dict的存储不是按照list方法的顺序来排列的，迭代结果顺序可以能不一样
+            
+            ```python
+            
+            for x in 'abc'"   # 字符串也可以迭代
+            
+                print x
+                
+            ```
+            a
+            b
+            c
+            
+            1. collections模块的iterable可以判断一个对象是否可以迭代
+             
+                from collections import Iterble
+            
+                isinstance('abc', Iterable)    # str 是否可迭代
+            
+                True
+            
+               isinstance([1,2,3], Iterable)  # list 是否可迭代
+            
+               True
+            
+               isinstance(123, Iterable)      # 整数是否可以迭代  
+            
+                False
+            
+            2. enumerate可以把一个list变成 索引-元素对，这样就可以同时迭代 索引-和元素本身
+            
+                ```python
+            
+                for x, value in enumerate(['A', 'B', 'C'])
+                
+                    print x, value
+                    
+                ```
+                0 A
+                1 B
+                2 C
+                
+             3.for循环里，可以同时引用两个变量      
+             
+                ```python
+                
+                for x, y in [(1, 1), (2, 4), (3, 9)]:
+                
+                    print x, y
+                    
+                ```
+                1 1
+                2 4
+                3 9
+                
+        *  小结：任何可以迭代的对象都可以作用于for循环，包括我们自定义的数据类型，只要符合迭代条件，就可以使用foe循环
+        
+        
+          
+        
+                
+                
+            
+            
+            
+            
+            
+            
+
+            
+            
+            
+            
+                   
+                   
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
