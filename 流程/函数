@@ -1,0 +1,368 @@
+##函数
+
+        * 调用函数
+        
+           ```python
+        
+           abs(100)
+        
+           abs(-20)
+        
+           abs(12.34)
+        
+           abs(1, 2)  # 传入参数数量不对时，python会报错'TypeError'(类型错误)：并明确指出abs()只有一个参数，但是给出了2个
+        
+           abs('a')   # 参数类型不对，会指出str错误的参数类型
+         
+           ```
+            100
+            -20
+            12.34
+            Traceback (most recent call last):
+              File "<stdin>", line 1, in <module>
+            TypeError: abs() takes exactly one argument (2 given)
+       
+          Traceback (most recent call last):
+              File "<stdin>", line 1, in <module>
+           TypeError: bad operand type for abs(): 'str'
+           
+         * 数据类型转换
+         
+            ```python
+         
+            int('123')  # 转整数
+         
+            int(12.34)  # 转整数
+            
+            float('12.34')  # 转小数
+            
+            str(1.23)       # 转字符串
+            
+            unicode(100)    # 转unicode  
+            
+            bool(1)         # 布尔值
+            
+            bool('')
+            
+            ```
+            123
+            12
+            12.34
+            '1.23'
+            u'100'
+            True
+            False
+            
+            ```python
+            
+            a = abs
+            
+            print a(-1)
+            
+            ```
+            1
+            
+            函数名其实就是一个函数引用的变量名，这个变量名完全可以重新命名，相当于给这个函数取了一个'别名'
+            
+            调用函数需要根据函数定义，传入真确的函数参数，否则就会报错。
+            
+            
+         * 定义函数  定义函数使用'def'语句，依次写出函数名，括号，括号中的参数和':'冒号，在缩进中编写函数体，函数返回用'return'
+         
+            ```python my_abs(x):
+              
+                if x >= 0:
+                
+                    return x
+                    
+                else:
+                
+                    return -x
+                    
+         
+         
+         *  空函数(pass)，  pass作为占位符，代替还没写好的代码，让代码先执行起来
+         
+            ```python
+            
+            if age >= 18:
+              
+                pass   
+                
+        *  参数检查('isinstance()'), python解释器可以检测参数数量，但是检测不到传入参数类型对不对，isinstance可以实现参数类型检测
+        
+           ```python
+           
+           def my_abs(x):
+           
+              if ont isinstance(x, (int, float)):
+              
+                  raise TypeError('bad operand type')
+                  
+              if x >= 0:
+              
+                  return x
+                  
+             else:
+             
+                  return -x
+                  
+                  
+          *  返回多个值 
+          
+             ```python
+          
+             import math
+             
+             def move(x, y, step, angle = 0):
+             
+                nx = x + step * math.cos(angle)
+                
+                nx = y - step * math.sin(angle)
+                
+                return nx, ny
+                
+              x, y = move(100, 100, 60, math.pi/6)
+              
+              print x, y
+              
+              r = move(100, 100, 60, math.pi/6)
+              
+              print r
+              
+              ```
+              151.961524227 70.0             # 函数返回的仍是单一值
+              (151.96152422706632, 70.0)     # 返回值是一个tuple，声明一个变量接收
+              
+              
+              小结：
+              
+                 1. 定义函数时，需要确定函数名、函数参数个数
+                 2. 如果有必要，可以先对函数参数的数据类型做检测
+                 3. 函数体内部可以用return随时返回函数结果，没有return语句是，自动返回return None
+                 4. 函数可以同时返回多个值，返回的其实就是一个tuple
+                 
+                 
+           
+           *  函数的参数
+           
+              1.默认参数
+              
+                  ```python
+                  
+                  def power(x, n =2 ):
+                  
+                      s = 1
+                      
+                      whlie n > 0:
+                      
+                          n = n - 1
+                          
+                          s = s * x
+                          
+                       return s
+                  
+                  print power(5)     # 当我们调用power(5)时，相当于调用power(5, 2)
+                  
+                  print power(5.2)
+                  
+                  ```     
+                  25
+                  25
+                  
+                  ```python
+                  
+                  def enroll(name, gender, age = 18, city = 'beijing'):
+                  
+                      print 'name:', name
+                      
+                      print 'gender:', gender
+                      
+                      print 'age:', age
+                      
+                      print 'city:',  city
+                      
+                   print enroll('Sarah', 'F')   
+                      
+                   print enroll('Bob', 'M', 77)
+                   
+                   print enroll('Adam', 'F', city = 'tianjing')
+                   
+                   ```
+                   name: Sarah
+                   gender: F
+                   age: = 18
+                   city: beijing
+                   
+                   name: Bob
+                   gender: M
+                   age: = 77
+                   city: beijing
+                   
+                   name: Adam
+                   gender: F
+                   age: = 18
+                   city: tianjing
+                   
+                   坑: 默认参数必须指向不变对象
+                   
+                   ```python
+                   
+                   def add_end(L = None ):
+                   
+                      if L is None:
+                      
+                          L = []
+                          
+                      L.append('END')
+                      
+                      return L
+                      
+                    print add_end()
+                    
+                    print add_end()
+                    
+                    ```
+                    ['END']
+                    ['END']
+                    
+                    
+                * 可变参数(*agrs)，接收一个typle
+                
+                    def calc(*numbers):
+                    
+                        sum = 0
+                        
+                        for n in numbers:
+                        
+                            sum = sum + n * n
+                            
+                         return sum
+                         
+                     print calc(1, 2)  # '*' 表示接收一个tuple，可以接收任意个参数，包括0个参数
+                     
+                     print calc()  
+                     
+                     nums = [1, 2, 3]
+                     
+                     print calc(*nums)  # '*' 可以直接传入list，tuple
+                     
+                     ```
+                     5
+                     0
+                     14
+                   
+                 *  关键字参数(*kw)，接收一个dict
+                 
+                    ```python
+                    
+                    def person(name, age, **kw):
+                    
+                        print 'name:', name, 'age:', age, 'other:', kw
+                        
+                    print person('Michael', 30)
+                    
+                    print person('Bob', 35, city = 'beijing', gender = 'M')
+                    
+                    kw = {'city: 'beijing', 'job': 'Engineer'}
+                    
+                    print person('Jack', 24, **kw)
+                    
+                    ```
+                    name: Michael age: 30 other: {}
+                    name: Bob age: 35 other:{'city': 'beijing', 'gender': 'M' }
+                    name: 'Jack' age: 24 other:{'city': 'beijing', 'job': 'Engineer'}
+                    
+                 *  参数组合
+                 
+                    def func(a, b, c = 0, *args, **kw):
+                    
+                        print 'a =', a, 'b =', b, 'c=', c, 'args =', args, 'kw =', kw
+                        
+                    print func(1, 2)
+                    
+                    print func(1, 2, c = 3)
+                    
+                    print func(1, 2, 3, 'a', 'b')
+                    
+                    print func(1, 2, 3, 'a', 'b', x = 99)
+                    
+                    args = (1,2,3,4)
+                    
+                    kw = {'x': 99}
+                    
+                    print func(*args, **kw)
+                    
+                    ```
+                    a = 1 b = 2 c = 0 args = () kw = {}
+                    a = 1 b = 2 c = 3 args = () kw = {}
+                    a = 1 b = 2 c = 3 args = ('a', 'b') kw = {}
+                    a = 1 b = 2 c = 3 args = ('a', 'b') kw = {'x': 99}
+                    a = 1 b = 2 c = 3 args = (4,) kw = {'x': 99}
+                    
+                    
+                    小结：
+                    
+                        1.默认参数一定要用不可变对象
+                        2.*args是可变参数，接收一个tuple
+                        3.**kw是关键字参数，接收一个dict
+                        4.可变参数既可以直接传入： func(1，2，3)，又可以通过先组装的list、tpule，传入:func(*(1,2,3))
+                        5.关键词参数可以直接传入： func(a = 1, b = 2)，又可以先组装dict，传入:func(**{'a':1, 'b': 2})
+                    
+                    
+                *  递归函数(函数内部调用自己本身，就是递归函数)
+                
+                   ```python
+                   
+                   def fact(n):
+                    
+                      if n == 1:
+                      
+                          return 1
+                          
+                      return n * fact(n - 1)
+                      
+                    print fact(1)
+                    
+                    print fact(5)
+                    
+                    ```
+                    1
+                    120
+                  
+               
+                    
+                        
+                   
+                    
+                   
+                   
+                   
+              
+        
+        
+          
+              
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+       
+       
+        
