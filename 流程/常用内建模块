@@ -1,0 +1,368 @@
+## 常用内建模块
+
+        * collectlons
+        
+            1. namedtuple   用于创建一个自定义的typle对象，并且规定了tuple元素的个数，并可以用属性而不是索引来引用tuple的某个元素
+            
+                ```python
+                
+                from collections import namedtuple
+                
+                point = namedtpule('point', ['x', 'y'])
+                
+                p = point(1, 2)
+                
+                print p.x
+                
+                print p.y
+                
+                ```
+                1
+                2
+                
+                Circle = namedtpule('Circle', ['x', ''y], 'r')   # namedtpule('名称', [属性list])
+                
+            2. deque  用于高效实现插入、删除操作的双向列表，适合用于队列和栈
+            
+                ```python
+                
+                from collections import deque
+                
+                q = deque(['a', 'b', 'c'])    
+                
+                q.append('x')
+                
+                q.appedleft('y')     # 增加到左边，也就是在头部添加一个元素 .popleft()，则是删除尾部的一个元素
+                
+                print q
+                
+                ```
+                deque(['y', 'a', 'b', 'c', 'x'])
+                
+                
+             3. defaultdict  引用key不存在时，可以设定一个默认值返回
+             
+                ```python
+                
+                from collections import defaultdict
+                
+                dd = defaultdict(lambda: 'N/A')  # 默认值在创建defaultdict时传入
+                
+                dd['key1'] = 'abc'
+                
+                print dd['key1']  # key1 存在返回'abc'
+                
+                print dd['key2']  # ke2 不存在，返回默认值'N/A'
+                
+                ```
+                'abc'
+                'N/A'
+                
+              4. OrderedDict  用于dicy迭代时，给key排序(OrderedDict的key，是按照插入时间的先后顺序排序的)
+              
+                  ```python
+                  
+                  from collections import OrderedDict
+                  
+                  d = dict([('a', 1), ('b', 2), ('c', 3)])
+                  
+                  print d
+                  
+                  od = OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+                  
+                  print od
+                  
+                  ```
+                  {'a': 1, 'c': 3, 'b': 2}                     # dict的Key是无序的
+                  OrderedDict([('a', 1), ('b', 2), ('c', 3)])  # OrderedDict的Key是有序的
+                  
+                  
+                  ```python
+                  
+                  od = OrderedDict()
+                  
+                  od['z'] = 1
+                  
+                  od['y'] = 2
+                  
+                  od['x'] = 3
+                  
+                  print od.keys()  # 按照插入时间先后的顺序进行排序
+                  
+                  ```
+                  ['z', 'y', 'x']
+                  
+                  
+               5. Counter  （计数器），实际也是dict的一个子类
+               
+                  ```python
+                  
+                  from collections import Counter
+                  
+                  c = Counter()
+                  
+                  for ch in 'programming':  # 统计字符出现的次数
+                  
+                      c[ch] = c[ch] + 1
+                      
+                  print c
+                  
+                  ```
+                  Counter({'g': 2, 'm': 2, 'r': 2, 'a': 1, 'i': 1, 'o': 1, 'n': 1, 'p': 1})
+                  
+                  
+        * base64 一种用64个字符表示二进制数据的方法 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        * struct
+        
+        
+        * hashlib
+        
+        
+        
+        
+        * itertools 迭代器
+        
+            1. 'count()', 无限把传入的一个序列重复
+        
+            ```python
+            
+            import itertools
+            
+            natuals = itertools.count(1)
+            
+            for n in natuals:
+            
+                print n
+                
+            ```
+            1
+            2
+            3
+            ...
+            
+            
+            ```python
+            
+            import itertools
+            
+            cs = itertools.cycle('ABC') # 字符串也是序列的一种
+            
+            for c in cs"
+            
+               print c
+               
+            ```
+            'A'
+            'B'
+            'C'
+            'A'
+            'B'
+            'C'
+            ...
+            
+           2. 'repeat()', 可以指定重复次数
+           
+           ```python
+           
+           ns = itertools.repeat('A', 10)
+           
+           for n in ns:
+           
+              print n
+              
+           ```
+           打印10次'A'
+           
+           'takewhile()', 根据条件判断截取出一个有限的序列
+           
+           ```python
+           
+           natuals = itertools.count(1)
+           
+           ns = itertools.takewhile(lambda x: x <= 10, natuals)
+           
+           for n in ns:
+           
+              print n
+              
+           ```
+           打印出1到10
+           
+           
+           3. 'chain()', 把一组迭代对象连接起来，行程一个更大的迭代器
+           
+           ```python
+           
+           for c in itertools.chain('ABC', 'XYZ'):
+           
+              print c
+              
+           ```
+           'A', 'B', 'C', 'X', 'Y', 'Z'
+           
+           4. 'GROUPBY()', 把迭代器相邻重复的元素整合起来，放在一起
+           
+           ```python
+           
+           for key, group in itertools.groupby('AAABBBCCAAA'):
+            
+              print key, list(group)  # 作用在函数的2个元素返回的值相等，就会被认为在一组
+              
+           ```
+           A['A', 'A', 'A']        
+           B['B', 'B', 'B']
+           C['C', 'C']
+           A['A', 'A', 'A']
+           
+           
+           ```python
+           
+           for key, group in itertools.groupby('AaaBBbCcAaa', lambda c : c.upper()):  # 使用函数 忽略大小写 效果一样
+              
+              print key, list(group)
+              
+           ```
+           A['A', 'A', 'A']        
+           B['B', 'B', 'B']
+           C['C', 'C']
+           A['A', 'A', 'A']
+           
+           
+           5. 'imap()'， 和map()区别在于，imap()可以作用与无穷序列，如果2个序列长度不一致，以短的为准
+           
+           ```python
+           
+           for x in itertools.imap(lambda x, y: x * y, [10, 20, 30], itertools.count(1)):
+           
+              print x
+              
+           ```
+           10
+           40
+           90
+           
+           ```python
+           
+           r = map(lambda x: x * x, [1,2,3])
+           
+           print r   # r已经被计算出来了
+           
+           ```
+           [1, 4, 9]
+           
+           注意：map返回的是个list,imap返回的是一个可迭代对象
+           
+           ```python
+           
+           r = itertools.imap(lambda x: x * x, [1, 2, 3])
+           
+           print r  # r只是一个迭代对象
+           
+           ```
+           <itertools.imap object at 0x103d3ff90>
+           
+           必须用for循环r进行迭代，才会循环计算出下一个元素
+           
+           ```python
+           
+           for x in r:
+              
+              print x
+              
+           ```
+           1
+           4
+           9
+           
+           imap()实现了'惰性计算'，需要结果时后才计算，惰性计算的函数可以出来无限序列
+           
+           ```python
+           
+           r = itertools.imap(lambad x: x * x, itertools.count(1))
+           
+           for n in itertools.takewhile(lambda x: x < 100, r):
+           
+              print n
+              
+           ```
+           1
+           4
+           9
+           16
+           25
+           36
+           49
+           64
+           81
+           
+           6. 'ifilter()', 就是'filte()'的惰性实现
+           
+           惰性函数就是把函数的方法定义成一个对象，任何参数实例，直接调用惰性函数即可实现函数具体的执行过程。
+           
+       
+       
+       * XML
+       
+       
+       
+       * 
+       
+         
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+            
+                  
+                  
+                  
+               
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
