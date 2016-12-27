@@ -1,1 +1,65 @@
+## 模块
 
+        *  模块（Module）
+          
+           1.把写的长长的代码，放入分类好的文件里，一个.py这样的文件就称为Module
+           2. 这样大大提高了代码的可维护性，因为，代码不必从零开始写，python内置和第三方就有很多模块可以直接引用
+           3.引用顺序，import os(python内置)，import PIP（第三方），import zy(自己写的)
+           4.使用模块可以避免函数名和变量名冲突，相同的变量名和函数名可以分别在不同的模块中，自己定义的模块名字不要和内置函数名和内置函数模块名相同
+           5.如果模块名字与其他模块名字冲突，还可以设置一个包，来组织模块。就是模块的上一级分类'包'，装模块的
+           5.zhuyi.zy,意思是zy这个模块在zhuyi这个包内，from zhuyi import zy
+           6.注意：每个包名下，一定要有一个__init__.py，这个文件必须存在，文件可以为空
+           
+           
+         * 使用模块
+         
+           #!/usr/bin/env python          # 标准注释，可以让hello.py这个文件直接在Unix/Linux/mac上运行
+          
+           # -*- coding: utf-8 -*-        # .py文件使用Utf-8编码  
+           
+           ' a test module '              # 表示模块文档注释,任何模块代码的第一个字符串都被视为模块的文档注释
+           
+           __author__ = 'Michael Liao'    # 使用'__author__'变量把作者写进去，这样当你公开源代码后别人就可以瞻仰你的大名 
+          
+          import sys                      # 
+
+           def test():
+   
+              args = sys.argv
+
+           if len(args)==1:
+        
+              print 'Hello, world!'
+    
+           elif len(args)==2:
+        
+              print 'Hello, %s!' % args[1]
+            
+           else:
+        
+              print 'Too many arguments!'
+
+          if __name__=='__main__':
+   
+              test()
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
