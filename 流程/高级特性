@@ -158,6 +158,105 @@
         *  小结：任何可以迭代的对象都可以作用于for循环，包括我们自定义的数据类型，只要符合迭代条件，就可以使用foe循环
         
         
+        *  生成器(Generator)，创建一个生成器只需要把一个列表生成式'[]'改成'()'，或者一个函数内存在'yield'关键词
+        
+             ```python
+           
+             g = (x * x for x in range(10))   # 每次调用next则计算出下一个元素的值，所以如果有10000个元素，我只需要访问前10个元素的值就很方便了
+           
+             print g.next  
+           
+             print g.next
+           
+             print g.next
+           
+             ...
+           
+             ```
+             0
+             1
+             4
+             ...
+           
+             每次需要调用next，很麻烦，生成器是可以迭代的
+           
+             ```python
+           
+             g = (x * x for x in range(10))
+           
+             for n in g:
+           
+               print n
+             
+            ```
+            0
+            1
+            4
+            9
+            ...
+          
+            ```python               # 函数式按顺序一次执行完，遇到retuen时返回
+            
+            def odd():              # generator 函数每次调用next的时候执行，遇到yield语句则返回，再次执行next时时从上个yield后开始执行
+            
+              print 'step 1'        # 所以执行第4次yield时，python报错，因为没有yield可以执行
+              
+              yield 1               #
+              
+              print 'step 2'
+              
+              yield 3
+              
+              print 'step 3'
+              
+              yield 5
+              
+           o = odd()
+           
+           0.next()
+           
+           0.next()
+           
+           0.next()
+           
+           ```
+           step 1
+           1
+           step 2
+           3
+           step 3
+           3
+
+
+           
+           
+           
+           
+           
+           
+           
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        *
+        
+        
+        
+        *
+        
+        
           
         
                 
