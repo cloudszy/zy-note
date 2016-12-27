@@ -1,1 +1,130 @@
+## 面向对象编程
 
+        * 面向对象编程 (Obiect Oriented Programming,简称OOP)
+        
+          1. OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数
+          2. 面向过程的程序设计把计算机程序视为一系列的命令合集，即一组函数的顺序执行。
+          3. 为了简化程序设计，面向过程把函数继续切分为子函数执行，即把大块函数通过切割成小块函数来降低系统复杂度
+          4. 面向对象的程序则是把计算机程序视为一组对象合集，而每个对象都可以接收其他对象发过来的消息，并处理这些消息
+          5. 计算机程序的执行就是一系列消息在各个对象之前的传递
+          6. 所有数据类型都可以视为对象，当然也可以自定义对象。自定义的对象数据类型就是面向对象中的类(class)的概念
+          
+              ```python
+              
+              chass Student(object):  # Student 这种数据类型视为一个对象
+              
+                  def __init__(self, name, score):  # 这个对象拥有name，score这个2个属性(Property)
+                  
+                      self.name = name              # 如果要打印一个学生的成绩，首先必须创建出这个学生对应的对象
+                      
+                      self.score = score
+                      
+                  def pirnt_score(self):            # 然后，给这个对象发一个print_score的消息，让对象自己把自己的数据打印出来
+                  
+                      print '%s: %s' % (self.name, self.score)
+                      
+                  bart = Student('Bart Simpson', 59)  # 给对象发消息实际上就是调用对象应该的关联函数，我们称为对象的方法(Method)
+                  
+                  lisa = Student('Lisa simpson', 87)
+                  
+                  print bart.print_score()
+                  
+                  print lisa.print_score()
+                  
+                  ```
+                  Bart Simpson: 59
+                  Lisa Simpson: 87
+                  
+                  1. 类(class)和实例(instance)
+                  2. Class是一种抽象的概念，比如我们定义的Calss-Studnt，是指学生这个概念
+                  3. 而instance则是一个个具体的Student，比如:Bart Simpson和Lisa Simpson的两个具体的Student
+                  4. 所以，面向对象的设计思想是抽象出Class，根据Class创建出instance
+                  5. 面向对象的抽象又比函数要高，因为一个Calss既包含数据，又包含操作数据方法
+                  6. 数据封装、继承和多态是面向对象的三大特点
+                  
+                  
+                  
+        * 类和实例 (class\ instance)
+        
+            ```python
+            
+            class Studnet(object): # 创建一个Studnet的类  （一个实现过程） 方法
+            
+                 pass
+                 
+            bart = Student()       # 声明一个类的实例      （一个具体对象）数据
+             
+            print bart             # 方法统一，操作不一样的数据
+            
+            print Student
+            
+            ```
+            <__main__.Student object at 0x10a67a590>
+            <class '__main__.Student'>
+            
+              1. 类是抽象的 '模板'， 实例是根据类创建出来的一个具体对象
+              2. 每个对象都拥有相同的方法，当是各自的数据可能不同
+              3. class后面接着是类名，既Student，类名开头字母一般大写，紧接着是一个(object),表示该类从哪个类继承下来的
+              4. 创建实例，是通过类名+()实现
+              5. 变量bart指向一个Student的object，后面的0x10a67a590>是内存地址，每个object的地址都不一样，而Student本身则是一个类
+              
+            ```python
+            
+            bart.name = 'Bart Simpson'  # 可以自由的给一个实例变量绑定属性 这里给bart绑定一个name属性
+            
+            print bart.name
+            
+            ```
+            'Bart Simpos'
+            
+              6. __init__，可以强行绑定一些属性
+              
+            ```python
+            
+            class Student(object):
+            
+                def __init__ (self, name, score):
+                
+                    self.name = name
+                    
+                    self.score = score
+                    
+             bart = Student('Bart Simpson', 59)
+             
+             print bart.name
+             
+             print bart.score
+             
+             ```
+             'Bart Simpos'
+             59
+             
+                    
+               7. __init__ 方法的第一个参数永远是self，表示创建的实例本身
+               8. __init__ 在创建的时候，不能传入空参数，必须传入与__init__方法匹配的参数，self不需要传
+               9. 和普通函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且调用时，不用传递参数
+               10. 另外一样可以传入默认参数、可变参数、关键字参数
+               
+            
+        * 数据封装
+            
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                   
+                  
+                  
+                  
+                  
+                  
+                  
+        
+        
+        
