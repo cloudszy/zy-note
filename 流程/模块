@@ -13,35 +13,53 @@
            
          * 使用模块
          
-           #!/usr/bin/env python          # 标准注释，可以让hello.py这个文件直接在Unix/Linux/mac上运行
+             1. 如何创建一个标准模块
+         
+                #!/usr/bin/env python          # 标准注释，可以让hello.py这个文件直接在Unix/Linux/mac上运行
           
-           # -*- coding: utf-8 -*-        # .py文件使用Utf-8编码  
+                # -*- coding: utf-8 -*-        # .py文件使用Utf-8编码  
            
-           ' a test module '              # 表示模块文档注释,任何模块代码的第一个字符串都被视为模块的文档注释
+                ' a test module '              # 表示模块文档注释,任何模块代码的第一个字符串都被视为模块的文档注释
            
-           __author__ = 'Michael Liao'    # 使用'__author__'变量把作者写进去，这样当你公开源代码后别人就可以瞻仰你的大名 
+                __author__ = 'Michael Liao'    # 使用'__author__'变量把作者写进去，这样当你公开源代码后别人就可以瞻仰你的大名 
           
-          import sys                      # 
-
-           def test():
+                import sys                      # 导入一个系统模块 sys
+           
+                def test():
    
-              args = sys.argv
-
-           if len(args)==1:
+                   args = sys.argv            # 之后我们就有了一个sys的变量，可以.出sys的所有模块功能 比如: sys.agrs
+         
+               if len(args)==1:
         
-              print 'Hello, world!'
+                   print 'Hello, world!'
     
-           elif len(args)==2:
+               elif len(args)==2:
         
-              print 'Hello, %s!' % args[1]
+                   print 'Hello, %s!' % args[1]
             
-           else:
+               else:
         
-              print 'Too many arguments!'
+                   print 'Too many arguments!'
 
-          if __name__=='__main__':
+               if __name__=='__main__':        # 在python交互环境下，调用test可以直接执行test()上面的代码，否则不执行
    
-              test()
+                   test()
+              
+              
+              
+             2. 别名  
+             
+                ```python
+                
+                try:  # 先导入cStringIO 
+                
+                     import cStringIO as StringIO      
+                     
+                 except ImportError:  # 导入失败会捕获到ImportError
+                 
+                     import StringIO  # 继续导入StringIO 
+                     
+              
               
               
               
