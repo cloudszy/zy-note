@@ -121,7 +121,80 @@
   
         * 使用@property
         
-          1
+          1. 在绑定属性时，如果我们把属性暴露出去，虽然写起来很简单，但是，没办法检查参数，导致可以把成绩随便修改
+          
+             s = Studengt()
+            
+             s.score = 9999
+            
+          2. 这显然不合逻辑。通过一个set_score()方法来设置成绩，在通过一个get_score()来获取成绩，这样在set_score方法里，就可以检测参数
+          
+             class Student(object):
+             
+                   def get_score(self):
+                   
+                         return self._score
+                         
+                   def set_score(self, value):
+                   
+                          if not isinstance(value, int):  # 如果不是整数，返回raise
+                          
+                                 raise ValueError('score must be an integer!')  
+                                 
+                          if value < 0 or value > 100:    # 如果不是0~100之间的数，返回raise
+                          
+                                 raise ValueError('score must be an 0 ~ 100!')
+                                 
+                          self._score = value
+                          
+               s = Studnet()
+               s.set_score(60)  # 参数限制在 0~100 以内
+               s.get_score()
+               s.set_score(9999)  # 不符合数据类型，和超出参数设置范围则报错
+               
+               ```
+               60
+               报错
+             
+             
+            3. 上面的调用方法又略显复杂，@property，装饰器可以把一个方法变成属性调用
+            
+               class Student(object):
+               
+                   @property         
+                   def score(self):
+                   
+                         return self._score
+                   
+                   @score.setter      
+                   def score(self, value):
+                   
+                          if not isinstance(value, int):  # 如果不是整数，返回raise
+                          
+                                 raise ValueError('score must be an integer!')  
+                                 
+                          if value < 0 or value > 100:    # 如果不是0~100之间的数，返回raise
+                          
+                                 raise ValueError('score must be an 0 ~ 100!')
+                                 
+                          self._score = value
+               
+               s = Student()
+               
+               s.score = 60
+               
+               s.score = 9999
+               
+               ```
+               60
+               报错
+               
+  _______________暂时空一下，
+  ——————————————————
+  ——————————————————————————————————————
+  
+  
+               
   
   
   
@@ -132,4 +205,27 @@
   
   
   
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
