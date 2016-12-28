@@ -1,1 +1,135 @@
+## 面向对象高级编程
 
+        * 面向对象高级编程
+        
+          1. 数据封装、继承、多态只是面向对象程序中程序设计中最基础的3个概念
+          2. 多重继承、定制类、元类等，是面向对象高级编程的许多高级特性
+          
+          
+        * 使用 MethodType（方法类型）
+        
+          1. 正常情况下，我们定义一个class，创建一个class的实例后，我们可以给该实例绑定任何属性和方法，这就是动态语言的灵活性
+          
+             ```python
+             
+             class Student(object):   # 定义一个类
+             
+                pass
+                
+             s = Student()           # 声明一个实例
+             
+             s.name = 'Michael'      # 动态给实例绑定一个属性
+             
+             print s.name
+             
+             def set_age(self, age): # 还可以给实例绑定一个方法
+             
+                self.age = age
+                
+             from types import MethodType  # 导入types的MethodType模块， MethodType函数，可以给实例绑定一个新的方法
+             
+             s.set_age = MethodType(set_age, s, Student)  # 传入的参数分别是，新增的方法，声明实例变量名，类名
+             
+             s.set_age(25) # 调用新增的 实例方法
+             
+             s.age 
+             
+             ```
+             Michael
+             25
+  
+          2. 但是 ，给一个实例绑定方法，对另一个实例是不起作用的
+          
+             ```python
+             
+             s2 = Student() # 创建新的实例
+             
+             s2.set_age(25) # 尝试调用方法   
+             
+             ```
+             报错
+             
+          3. 给所有实例绑定方法：  
+          
+             ```pthon
+             
+             def set_score(self, score):
+             
+               self.score = score
+               
+             Student.set_score = MethodType(set_score, None, Student)   # None，没有指明具体是哪个实例，指的是全部实例
+             
+             s.set_score(100) # 给class绑定方法后，所有实例均可调用
+             
+             print s.score
+             
+             s2.set_score(99)
+
+             print s2.score
+             
+             ```
+             100
+             99
+
+          4. 通常，上面的set_score方法可以直接定义在class里面，但动态绑定允许我们在程序的运行的过程中动态的给class加上功能
+  
+  
+  
+        * 使用 __slots__
+         
+          1. 限制class属性，比如设定一个实例(student)，只允许添加name和score属性，用__slots__实现
+          
+              ```python
+              
+              class Student(object):
+              
+                  __slots__ = ('name', 'age') # 用tuple定义允许绑定的属性名称
+                  
+               s = Student() # 创建新的实例
+               
+               s.name = 'Michael' # 绑定属性'name'
+               
+               s.age = 25  # 绑定属性'age'
+               
+               s.score = 99 # 绑定属性'score'  # 定义的参数里，没有score这个参数，所以报错
+               
+               ```
+               报错
+               
+          2. 由于'score'没有被放到__slots__中，所以不能绑定score属性，试图绑定score将得到AttributeError的错误。
+          3. 使用__slots__要注意，__slots__定义的属性仅对当前类起作用，对继承的子类是不起作用的：
+          
+             ```python
+             
+             class GraduateStudent(Student):
+             
+                pass
+                
+             g = GraduateStudent()
+             
+             g.score = 9999    #  虽然是继承了父类的属性，但是如果要在自身的类别里，需要限制指定属性添加，需要从新用__slots__定义
+             
+             print g.score()   # 所以在本类中，没有继承__slots__的功能，还是可以随意添加任意的属性
+             
+             ```
+             9999
+             
+     
+           4. 除非在子类中也定义__slots__，这样，子类允许定义的属性就是自身的__slots__加上父类的__slots__
+  
+  
+  
+        * 使用@property
+        
+          1
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
