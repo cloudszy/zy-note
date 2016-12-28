@@ -108,6 +108,99 @@
             
         * 数据封装
             
+            ```python  # 面向对象编程的一个重要的特点，数据封装
+            
+            def print_score(srd): # 在上面Student的类中，每个实例就拥有各自的name和score这些数据
+            
+              print '%s: %s' % (std.name, std.score)  # 我们可以通过一个函数来访问这些数据
+               
+            print_score(bart)  # 数据封装 其实就是把方法和数据全部绑定到类， 外部只需要提供数据参数，就可以直接获得执行结果
+            
+            ```
+            Bart Simpson
+            
+            1.Student实例本身就拥有这样数据，要访问这些数据，没有必要从外面的函数取访问，可以直接在Student类的内部定义访问数据的函数
+            2. 这样就把数据封装起来了，这些封装的数据的函数是和Student类本身是关联起来的，我们称之为类的方法
+            
+            ```python
+            
+            class Student(object):
+            
+              def __init__(self, name, score):
+              
+                     self.name = name
+                     
+                     self.score = score
+                     
+              def print_score(self):
+              
+                     print '%s: %s' % (self.name, self.score)
+                     
+              bart.print_score()
+              
+              ```
+              Bart Simpson: 59
+                     
+             3. 要定义一个方法，除了第一个函数式self外，其他和普通函数一样
+             4. 要调用一个方法，只需要在实例变量上直接调用，除了self不用传参数，其他参数正常传入
+             5. 这样从外部看来Student类，只需要知道，创建实例需要给出name和score，如何打印是在Student内部定义的
+             6. 这些数据和逻辑被封装起来了，调用很容易，但却不知道内部实现细节
+             7. 封装的另外一个好处是可以给Student类增加新的方法，比如get_grade
+             
+             ```python
+             
+             class Student(object):
+             
+              ···
+              
+              def get_grade(self):
+              
+                     if self.score >= 90:
+                     
+                            return 'A'
+                            
+                     elif self.score >= 60:
+                     
+                            return 'B'
+                            
+                     else:
+                     
+                            return 'C'
+                            
+               bart.get_grade()
+                
+               ```
+               C
+                         
+               8.同样的，get_grade()方法可以直接在实例变量上调用，不需要知道内部实现细节
+               9.类是创建实例的模板，而实例则是一个个具体的对象，各个实例拥有独立的数据，互不影响
+               10.方法，就是与实例绑定的函数，和普通函数不同，方法可以直接访问实例的数据
+               11.通过在实例上调用方法，我们就可以直接操作对象内部的数据，但无需知道方法内部的实现细节
+               12.和静态语言不同，python允许实例变量绑定任何数据
+               13.也就是说，对于两个实例变量，虽然它们都是同一个类的不同实例，但是拥有的变量名称都可能不同
+               
+                  ```python
+                  
+                  bart = Student('Bart Simpson', 59)
+                  
+                  lisa = Student('Lisa Simpson', 87)
+                  
+                  bart.age = 8   # 这里只是给bart声明了一个 age的参数为8
+                  
+                  print bart.age
+                  
+                  print lisa.age    # lisa虽然是同一个类的实例，但是因为实例之间数据是独立的，所以lisa并没有age这个参数
+                  
+                  ```
+                  8
+                  报错
+                  
+               
+                  
+               
+               
+             
+             
                   
                   
                   
