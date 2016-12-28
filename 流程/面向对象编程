@@ -197,13 +197,279 @@
                   
                
                   
+        * 访问限制
+        
+              1. 在Class内部，可以有属性和方法，而外部代码可以通过直接调用实例变量的方法来操作数据，这样就隐藏了内部复杂逻辑
+              2. 但是，从前面Student类的定义来看，外部代码还是可以自由的修改一个实例的name、score属性
+              
+                 ```python
+                 
+                 bart = Student('Bart Simpson', 98)
+                 
+                 print bart.score
+                 
+                 bart.socre = 59
+                 
+                 print bart.score
+                 
+                 ```
+                 98
+                 59
+                 
+               3. 如果要让内部属性不被外部访问，可以把属性的名称加上两个__，在python中，实例的变量名如果以__开头，就是一个私有变量(Private)
+               4. private只有内部可以访问，外部不能访问
                
+                  ```python
+                  
+                  class Student(object):
+                  
+                     def __intit__(self, name, score):
+                     
+                            self.__name = name
+                            
+                            self.__score = score
+                            
+                     def print_score(self):
+                     
+                           print '%s: %s' % (self.__name, self.__score)
+                           
+                     bart = Stundet('Bart Simpson', 98)
+                     
+                     print bart.__name
+                     
+                     ```
+                     报错
+                           
+                  5. 对于外部代码来说，已经无法从外部访问 实例变量.__name和实例变量.__socre      
+                  6. 这样就确保外部代码不能随意修改对象内部的状态，这样通过访问限制的保护，代码更加健壮
+                  7. 如果外部代码要获取name和score属性，可以给Student类增加'get_', get_name\get_score
+                  
+                    ```python
+                    
+                    class Student(object):
+                    
+                        ···
+                        
+                        def get_name(self):
+                        
+                             return self.__name
+                           
+                        def get_score(self):
+                        
+                             return self.__score
+                             
+                    7. 如果外部代码要修改name和score属性，可以给Student类增加'srt_', set_name\set_score
+                    
+                       ```python
+                    
+                    class Student(object):
+                    
+                        ···
+                        
+                        def set_name(self, name):
+                        
+                              self.__name = name
+                           
+                        def set_score(self, score):
+                        
+                              self.__score = score
+                          
+                     8. 在方法中，可以对参数做检查，避免传入无效参数
+                     
+                         
+                       ```python
+                    
+                       class Student(object):
+                    
+                        ···
+                        
+                        def set_score(self, score):
+                        
+                            if 0 <= score <= 100:     # 限制socre 大于等于0，小于等于100
+                            
+                                   self.__score = score
+                                   
+                            else:    # 否则报错
+                            
+                                   raise ValueError('bad score')9.
+                                   
+                                   
+                        
+                     9. __xxx___，开头的变量名，是特殊变量，特殊变量可以直接访问，不是Private变量，所以不能用__name__、__score__这样的变量名
+                     10. _name，私有变量，可以访问，当是不要随便访问
+                     11. __name，可以通过_Student__name来访问__name变量，但是强烈不建议这么干,不同版本的解释器，__name变量名不同
+                     
+                         ```python
+                         
+                         print bart._Student__name
+                         
+                         ```
+                         'Bart Simpson'
+             
+                  
+                  
+        * 继承和多态
+        
+              1. 当我们定义一个class的时候，可以从某个现有的class继承，新的class称为子类(Subclass)
+              2. 而被继承的class称为基类、父类或者超类(Base class Super class)
+              
+                 ```python
+                 
+                 class Animal(object): # 父类
+                 
+                     def run(self):
+                     
+                            print 'Animal is running...'
+                 
+                 class Dog(Animal):  # 继承父类的 子类，拥有父类的所有功能
+                 
+                     pass
+                     
+                 class Cat((Animal): # 继承父类的 子类，拥有父类的所有功能
+                 
+                     pass
+                     
+                 dog = Dog()
+                 
+                 dog.run()
+                 
+                 cat = Cat()
+                 
+                 cat.run()
+                 
+                 ```
+                 Animal is running...
+                 Animal is running...
+                 
+                 
+              3. 同样可以对子类增加一些方法
+              
+                 class Dog(Animal):
+                 
+                     def run(self):  
+                     
+                            print 'Dog is running...'
+                            
+                     def eat(self):
+                     
+                            print 'Eating meat...'
+                            
+               4. 当子类和父类都存在相同的run()方法时,子类的run()会覆盖了父类的run()
+               5. 在代码运行的时候，总是会调用子类的run()。这样，我们就获得了继承的另一个好处：多态
                
-             
-             
+                  ```python
+                  
+                  class Dog(Animal):      
+                  
+                     def run(self):  # 子类可以继承父类所有的方法，也可以覆盖父类的方法
+                     
+                            print 'Dog is running...'
+                            
+                  class Cat(Animal):
+                  
+                     def run(self):
+                     
+                            print 'Cat is running...'
+                            
+                  ```
+                  Dog is running...
+                  Cat is running..
+                  
+               
+               6. 当我们定义了一个class的时候，我们实际上就定义了一种数据类型
+               
+                  a = list() # a 是list类型
+                  
+                  b = Animal() # b是Animale类型
+                  
+                  c = Dog() # c是Dog类型
                   
                   
+                7. 判断一个变量是否是某个类型的数据类型用'isinstance()'
+                
+                    ```python
+                    
+                    isinstance(a, list)
+                    
+                    isinstance(b, Animal)
+                    
+                    isinstance(c, Dog)
+                    
+                    isinstance(c, Animal)
+                    
+                    ```
+                    True
+                    ...
                   
+                 8. c不仅是Dog，还是Animal，因为Dog是从Animal继承下来的，Dog本来就是Animale的一种
+                 9. 所以在继承关系中，一个实例的数据类型是某个子类，拿它的数据类型也可以被看做是父类，反过来就不行
+                 
+                    ```python
+                    
+                    b = Animal()
+                    
+                    isinstangce(b, Dog)
+                    
+                    ```
+                    False
+                 
+                 10. 子类可以被看做为父类，父类不可以看做为子类
+                 
+                     ```python
+                     
+                     def run_twice(animal):  # 父类再定义一个 函数   返回2次animal
+                     
+                            animal.run()
+                            
+                            animal.run()
+                            
+                      run_twice(Animal())  
+                      
+                      run_twice(Dog())      # 继承父类的 下属所有子类，通通跟着返回2次
+                      
+                      run_twice(Cat())
+                      
+                      ```
+                      Animal is running...
+                      Animal is running...
+                      Dog is running...
+                      Dog is running...
+                      Cat is running...
+                      Cat is running...
+                      
+                      ```python
+                      
+                      class Tortoise(Animal):  # 再定义一个Trotoise子类
+                      
+                            def run(self):    
+                            
+                                   print 'Tortoise is running slowly...'
+                                   
+                      run_twice(Tortoise())  # 方法是不需要在做任何改变
+                      
+                      ```
+                      Tortoise is running slowly...  # 即可得到父类继承的，方法，并返回一个结果
+                      Tortoise is running slowly...
+                      
+                      
+                 10. 任何依赖Animal作为参数的函数或者方法都可以不加修改的正常运行，原因在于多态
+                 11. 多态的好处就是，当我们需要传入Dog、Cat、Tortoise...时，我们只需要接收Animal类型就可以了
+                 12. 因为都是Animal的子类，Animale类型的拥有run()方法，子类们都会自动调用实际类型的run()方法，这就是多态
+                 13. 对于一个变量，我们只需要知道它是Animal类型，无需确切的知道它的子类型，就可以放心的调用run()方法
+                 14. 调用方只管调用，不管细节，而我们新增一种Animal子类时，只要确保run()方法编写正确，不要管原来的代码如何调用，这就是'开闭'原则
+                 15. 对扩展开放: 允许新增的子类  （可以随时增加新的子类，直接继承父类所有功能）
+                 16. 对修改封闭: 不需要修改依赖Animal的类型run_twice()等函数  （父类的功能不需要改变，直接继承直接使用，还可以直接覆盖父类的功能）
+                 17. 继承可以把父类所有功能都直接拿过来，这样就不必重零做起，子类只需要新增自己特有的方法，也可以把父类不合适的地方覆盖
+                 18. 有了继承，才有多态，在调用类实例方法的时候，尽量把变量视作父类类型，这样，所有的子类类型都可以正常接收
+                 
+                 
+                 
+                 
+                     
+                     
+                     
+                     
+                 
                   
                   
                   
