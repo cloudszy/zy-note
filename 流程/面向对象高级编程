@@ -194,10 +194,118 @@
   ——————————————————————————————————————
   
   
-               
+        * 多重继承
+        
+          1. 继承是面向对象编程的一个重要的方式，因为通过继承，子类就可以扩展父类的功能
+          
+             ```python
+             
+             class Animal(object): # 基类 Animal，没有继承任何类  所以继承类的原始对象，就是object
+              
+                   pass
+                   
+             class Mammal(Animal): # 哺乳动物，Mammal  继承父类动物的一个子类
+             
+                   pass
+                   
+             class Bird(Animal):  # 鸟类，Bird，继承父类动物的一个子类，算是哺乳动物的兄弟
+              
+                   pass
+                   
+             class Dog(Mammal):  # 狗，Dog，继承父类哺乳动物的一个子类，由于父类(Mammal)上面又有父类，Dog等于还有个爷爷Animal，一并继承下来
+             
+                   pass
+                   
+             class Bat(Mammal): # 蝙蝠，和狗一样，继承父类，再继承父类的父类，也就是基类，Dog的兄弟
+             
+                   pass
+                   
+            class Parrot(Bird): # 鹦鹉，另一支，算是旁系，继承父类(Bird)，再继承基类(Animal)，与Dog相比，有同一个爷爷，爸爸不同
+            
+                   pass
+                   
+            class Ostrich(Bird): # 鸵鸟，和鹦鹉一样，是兄弟，爸爸一样，和上面3个同个爷爷
+            
+                   pass
+                   
+            class Runnable(object): # 然后给2个功能 猎捕、飞行
+            
+                   def run(self):
+                   
+                     print ('Running...')
+                     
+            class Flyable(object): # 先定义好2个类，其实就是2个可继承的功能
+            
+                   def fly(self):
+                   
+                     print ('Flying...')
+                   
+            class Dog(Mammal, Runnable):  # 按需求去继承，把类名添加进去即可
+            
+                    pass
+                    
+            class Bat(Mammal, Flyable):  #  这样蝙蝠会有'哺乳动物'、哺乳动物会有'动物',还有飞行这个功能，飞行如果还有父类一并在继承
+            
+                    pass
   
   
-  
+        * Mixin （混合）
+        
+          1. 在设计类的继承关系时，通常，主线都是单一继承下来的，例如，Ostrich继承自Bird
+          2. 但是要混入额外，通过多重继承可以实现，比如让Ostrich多继承一个Runnable，这种设计称为Mixin
+          3. 为了更好的看出继承关系，给类目后面加Mixin后缀，RunnableMixin
+          
+             ```python
+             
+              class Dog(Mammal, RunnableMixin, CarnivrousMixin):
+              
+                     pass
+                     
+                     
+          4. Mixin的目的就是给一个类增加多个功能，这样，在设计类的时候，通过多重继承来组合多个Mixin的功能,来解决设计多层次的复杂的继承关系   
+          5. Python自带的很多库也使用了Mixin。
+          6. 举个例子，Python自带了TCPServer和UDPServer这两类网络服务，而要同时服务多个用户就必须使用多进程或多线程模型，
+             这两种模型由ForkingMixin和ThreadingMixin提供。通过组合，我们就可以创造出合适的服务来。
+          7. 比如，编写一个多进程模式的TCP服务，定义如下：
+          
+             class MyTCPServer(TCPServer, ForkingMixin):
+             
+                     pass
+                
+          8. 编写一个多线程模式的UDP服务，定义如下：
+           
+              class MyUDPServer(UDPServer, ThreadingMixin):
+              
+                     pass
+          
+          9. 如果你打算搞一个更先进的协程模型，可以编写一个CoroutineMixin：
+          
+              class MyTCPServer(TCPServer, CoroutineMixin):
+              
+                     pass
+           
+           10. 这样一来，我们不需要复杂而庞大的继承链，只要选择组合不同的类的功能，就可以快速构造出所需的子类。
+           11. 由于Python允许使用多重继承，因此，Mixin就是一种常见的设计。
+           12. 只允许单一继承的语言（如Java）不能使用Mixin的设计。
+           
+   
+        * 定制类
+        
+          1. 看到类似__slots__这种形如__xxx__的变量或者函数名就要注意，这些在Python中是有特殊用途的
+          2. __str__
+             
+            class Student(object):
+            
+                  def __init__(self, name):
+                  
+                     self.name = name
+                     
+            print Student('Michael')
+            
+            ```
+            <__main__.Student object at 0x109afb190> 
+                  
+             
   
   
   
