@@ -303,8 +303,147 @@
             print Student('Michael')
             
             ```
-            <__main__.Student object at 0x109afb190> 
+            <__main__.Student object at 0x109afb190>   # 不好看
+            
+          3. 只需要定义好__str__()方法，返回一个好看的字符串就可以了
+          
+             ```python
+             
+             class Student(object):
+             
+                def __init__(self, name):
+                
+                     self.name = name
+                     
+                def __str__(self):
+                
+                     return 'student object (name: %s)' % self.name
+                     
+              print Student('Michal') 
+              
+              ```
+              Student object (name: Michael)  # 这样打印的实例，好看，易懂
+              
+           4. 直接敲打变量不用print，打印的实例还是不好看
+              
+              ```python
+              
+              s = Student('Michal')
+              
+              s
+              
+              ```
+              <__main__.Student object at 0x109afb310>
+              
+           5. 解决办法是再定义一个__repr__()。但是通常__str__()和__repr__()代码都是一样的，所以，有个偷懒的写法：
+           
+              ```python
+              
+              class Student(object):
+              
+                    def __init__(self, name):
+                    
+                          self.name = name
+                          
+                    def __str__(self):
+                    
+                          return 'Stuednt object (name: %s)' % self.name
+                          
+                    __repr__ = __str__
+                    
+             6. __iter__, 如果一个类想被用于for...in循环，类似list或tuple那样，就必须实现一个__iter__()方法
+             7. 该方法返回一个迭代对象，然后，for循环就会不断调用该迭代对象的next()方法拿到下一个值，直到遇到Stoplteration错误时退出循环
+             
+                ```python
+             
+                class Fib(object):
+            
+                      def __init__(self):
+                
+                      self.a, self.b = 0, 1 # 初始化两个计数器a，b
+                   
+                      def __iter__(self):
+                
+                          return self # 实例本身就是迭代对象，故返回自己
+                   
+                      def next(self):
+                
+                         self.a, self.b = self.b, self.a + self.b # 计算下一个值
+        
+                         if self.a > 100000: # 退出循环的条件
+            
+                            raise StopIteration();
+        
+                         return self.a # 返回下一个值
                   
+                 for n in Fib():
+              
+                         print n
+                 
+                 ```
+                 1
+                 1
+                 2
+                 3
+                 5
+                 ...
+                 46368
+                 75025
+            
+
+             7. __getitem__, 要表现得像list那样按照下标取元素，需要实现__getitem__()方法:
+             
+                ```python
+                
+                class Fib(object):
+                
+                     def __getitem(self, n):
+                     
+                            a, b = 1, 1
+                            
+                            for x in range(n):
+                            
+                                   a, b = b, a + b
+                                   
+                            return a
+                            
+                  f = Fib()
+                  
+                  print f[0]
+                  
+                  print f[1]
+                  
+                  print f[2]
+                  
+                  print f[3]
+                  
+                  print f[10]
+                  
+                  print f[100]
+                  
+                  ```
+                  1
+                  1
+                  2
+                  3
+                  89
+                  573147844013817084101
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+              
+           
+           
              
   
   
