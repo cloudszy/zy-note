@@ -113,23 +113,318 @@
                   
         * base64 一种用64个字符表示二进制数据的方法 
         
-        
-        
-        
-        
-        
-        
-        
-        
+            1. 用记事本打开exe、jpg、pdf这些文件时，我们都会看到一大堆乱码，因为二进制文件包含很多无法显示和打印的字符
+            2. 所以，如果要让记事本这样的文本处理软件能处理二进制数据，就需要一个二进制到字符串的转换方法
+            3. Base64是一种最常见的二进制编码方法
+            4. Base64的原理很简单，首先，准备一个包含64个字符的数组：
+            
+               ['A', 'B', 'C', ... 'a', 'b', 'c', ... '0', '1', ... '+', '/']
+               
+            5. 然后，对二进制数据进行处理，每3个字节一组，一共是3x8=24bit，划为4组，每组正好6个bit
+            6. 这样我们得到4个数字作为索引，然后查表，获得相应的4个字符，就是编码后的字符串
+            7. 所以，Base64编码会把3字节的二进制数据编码为4字节的文本数据，长度增加33%，好处是编码后的文本数据可以在邮件正文、网页等直接显示
+            8. 如果要编码的二进制数据不是3的倍数，最后会剩下1个或2个字节怎么办？
+            9. Base64用\x00字节在末尾补足后，再在编码的末尾加上1个或2个=号，表示补了多少字节，解码的时候，会自动去掉
+            10. Python内置的base64可以直接进行base64的编解码：
+            
+                ```python
+                
+                import base64
+                
+                print base64.b64encode('binary\x00string')
+                
+                print base64.b64decode('YmluYXJ5AHNOcmluZW==')
+                
+                ```
+                'YmluYXJ5AHN0cmluZw=='
+                'binary\x00string'
+                
+            11. 由于标准的Base64编码后可能出现字符+和/，在URL中就不能直接作为参数
+            12. 所以又有一种"url safe"的base64编码，其实就是把字符+和/分别变成-和_：
+            
+                ```python
+                
+                print base64.b64encode('i\xb7\x1d\xfb\xef\xff')
+       
+                print base64.urlsafe_b64encode('i\xb7\x1d\xfb\xef\xff')
+
+                print base64.urlsafe_b64decode('abcd--__')
+               
+               ```
+               'abcd++//'
+               'abcd--__'
+               'i\xb7\x1d\xfb\xef\xff'
+               
+            13. 还可以自己定义64个字符的排列顺序，这样就可以自定义Base64编码，不过，通常情况下完全没有必要
+            14. Base64是一种通过查表的编码方法，不能用于加密，即使使用自定义的编码表也不行
+            15. Base64适用于小段内容的编码，比如数字证书签名、Cookie的内容等
+            16. 由于=字符也可能出现在Base64编码中，但=用在URL、Cookie里面会造成歧义，所以，很多Base64编码后会把=去掉
+            
+                'abcd' -> 'YWJjZA=='  # 标准的Base64
+                
+                'abcd' -> 'YWJjZA'    # 自动去掉=
+                
+            17. 去掉=后怎么解码呢？因为Base64是把3个字节变为4个字节，所以，Base64编码的长度永远是4的倍数
+            18. 因此，需要加上=把Base64字符串的长度变为4的倍数，就可以正常解码了
+            19. 请写一个能处理去掉=的base64解码函数
+            
+                 ```python
+                 
+                 print base64.b64decode('YWJjZA==')
+                 
+                 print base64.b64decode('YWJjZA')
+                 
+                 print safe_b64decode('YWJjZA')
+                 
+                 ```
+                 'abcd'
+                 报错
+                 'abcd'
+                 
+             20. Base64是一种任意二进制到文本字符串的编码方法，常用于在URL、Cookie、网页中传输少量二进制数据   
+                 
+               
+
         * struct
+        
+              1. 准确地讲，Python没有专门处理字节的数据类型
+              2. 但由于str既是字符串，又可以表示字节，所以，字节数组＝str。而在C语言中
+              3. 我们可以很方便地用struct、union来处理字节，以及字节和int，float的转换
+              4. 在Python中，比方说要把一个32位无符号整数变成字节，也就是4个长度的str，你得配合位运算符这么写
+                     
+                 ```python
+                 
+                 n = 10240099
+                 
+                 b1 = chr((n & 0xff000000) >> 24)
+                 
+                 b2 = chr((n & 0xffoooo) >> 16)
+                 
+                 b3 = chr((n & 0xff00) >> 8)
+                 
+                 b4 = chr((n & oxff))
+                 
+                 s = b1 + b2 + b3 + b4
+                 
+                 print s
+                 
+                 ```
+                 '\x00\x9c@c'
+                 
+              5. 非常麻烦。如果换成浮点数就无能为力了
+              6. 好在Python提供了一个struct模块来解决str和其他二进制数据类型的转换
+              7. struct的pack函数把任意数据类型变成字符串
+              
+                 ```python
+                 
+                 import struct
+                 
+                 struct.pack('>I', 10240099)
+                 
+                 ```
+                 '\x00\x9c@c'
+                 
+              8. pack的第一个参数是处理指令，'>I'的意思是
+              9. >表示字节顺序是big-endian，也就是网络序，I表示4字节无符号整数
+              10. 后面的参数个数要和处理指令一致
+              11. unpack把str变成相应的数据类型
+                  
+                  ```python
+                  
+                  print struct.unpack('>IH', '\xf0\xf0\xf0\xf0\x80\x80')
+                  
+                  ```
+                  (4042322160, 32896)
+                  
+               12. 根据>IH的说明，后面的str依次变为I：4字节无符号整数和H：2字节无符号整数
+               13. 所以，尽管Python不适合编写底层操作字节流的代码，但在对性能要求不高的地方，利用struct就方便多了
+               14. struct模块定义的数据类型可以参考Python官方文档：https://docs.python.org/2/library/struct.html#format-characters
+               15. Windows的位图文件（.bmp）是一种非常简单的文件格式，我们来用struct分析一下
+               16. 首先找一个bmp文件，没有的话用“画图”画一个
+               17. 读入前30个字节来分析：
+               
+                   s = '\x42\x4d\x38\x8c\x0a\x00\x00\x00\x00\x00\x36\x00\x00\x00\x28\x00\x00\x00\x80\x02\x00\x00\x68\
+                   x01\x00\x00\x01\x00\x18\x00'
+                   
+               18. BMP格式采用小端方式存储数据，文件头的结构按顺序如下：
+               
+                   两个字节：'BM'表示Windows位图，'BA'表示OS/2位图；
+                   一个4字节整数：表示位图大小；
+                   一个4字节整数：保留位，始终为0；
+                   一个4字节整数：实际图像的偏移量；
+                   一个4字节整数：Header的字节数；
+                   一个4字节整数：图像宽度；
+                   一个4字节整数：图像高度；
+                   一个2字节整数：始终为1；
+                   一个2字节整数：颜色数。
+
+               19. 所以，组合起来用unpack读取：
+                     
+                   ```python
+                   
+                   print struct.unpack('<ccIIIIIIHH', s)
+                   
+                   ```
+                   ('B', 'M', 691256, 0, 54, 40, 640, 360, 1, 24)
+                   
+               20. 结果显示，'B'、'M'说明是Windows位图，位图大小为640x360，颜色数为24
+               
+              
+              
         
         
         * hashlib
         
         
+            1. Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等
+            2. 摘要算法又称哈希算法、散列算法。它通过一个函数，把任意长度的数据转换为一个长度固定的数据串（通常用16进制的字符串表示）
+            3. 举个例子，你写了一篇文章，内容是'how to use python hashlib - by Michael'，并附上摘要是'2d73d4f15c0db7f5ecb321b6a65e5d6d'
+            4. 如果有人篡改了你的文章，并发表为'how to use python hashlib - by Bob'，你可以一下子指出Bob篡改了你的文章
+            5. 因为根据'how to use python hashlib - by Bob'计算出的摘要不同于原始文章的摘要
+            6. 可见，摘要算法就是通过摘要函数f()对任意长度的数据data计算出固定长度的摘要digest,目的是为了发现原始数据是否被人篡改过
+            7. 摘要算法之所以能指出数据是否被篡改过，就是因为摘要函数是一个单向函数，计算f(data)很容易，但通过digest反推data却非常困难
+            8. 而且，对原始数据做一个bit的修改，都会导致计算出的摘要完全不同
+            9. 我们以常见的摘要算法MD5为例，计算出一个字符串的MD5值：
+
+               ```python
+               
+               import hashlib
+               
+               md5 = hashlib.md5()
+               
+               md5.update('how to use md5 in python hashlib?')
+               
+               print md5.hexdigest()
+               
+               ```
+               d26a53750bc40b38b65a520292f69306
+               
+           10. 如果数据量很大，可以分块多次调用update()，最后计算的结果是一样的
+           
+              ```python
+              
+              md5 = hashlib.md5()
+              
+              md5.update('how to use md5 in')
+              
+              md5.update('python hashlib?')
+              
+              print md5.hexdihest()
+              
+              ```
+              d26a53750bc40b38b65a520292f69306
+              
+          12. 试试改动一个字母，看看计算的结果是否完全不同
+          13. MD5是最常见的摘要算法，速度很快，生成结果是固定的128 bit字节，通常用一个32位的16进制字符串表示
+          14. 另一种常见的摘要算法是SHA1，调用SHA1和调用MD5完全类似
+          
+              ```python
+              
+              import hashlib
+              
+              sha1 = hashlib.sha1()
+              
+              sha1.update('how to use sha1 in')
+              
+              sha1.update('python hashlib?')
+              
+              print sha1.hexdigest()
+              
+              ```
+              f2f2ca241a8576af8fd9f2dbb85a0c408b8357d0
+              
+          16. SHA1的结果是160 bit字节，通常用一个40位的16进制字符串表示
+          17. 比SHA1更安全的算法是SHA256和SHA512，不过越安全的算法越慢，而且摘要长度更长
+          
+       
+       *  摘要算法应用
         
-        
-        * itertools 迭代器
+          1. 摘要算法能应用到什么地方？举个常用例子：
+          2. 任何允许用户登录的网站都会存储用户登录的用户名和口令。如何存储用户名和口令呢？方法是存到数据库表中
+          
+             name           password
+             michael        123456
+             bob            abc999
+             alice          alice2008
+             
+          3. 果以明文保存用户口令，如果数据库泄露，所有用户的口令就落入黑客的手里
+          4. 此外，网站运维人员是可以访问数据库的，也就是能获取到所有用户的口令
+          5. 正确的保存口令的方式是不存储用户的明文口令，而是存储用户口令的摘要，比如MD5
+          
+              username      password
+              michael       e10adc3949ba59abbe56e057f20f883e
+              bob           878ef96e86145580c38c87f0410ad153
+              alice         99b1c2188db85afee403b1536010c2c9
+              
+          6. 当用户登录时，首先计算用户输入的明文口令的MD5，然后和数据库存储的MD5对比，如果一致，说明口令输入正确，如果不一致，口令肯定错误
+          7. 练习：根据用户输入的口令，计算出存储在数据库中的MD5口令：
+
+             def calc_md5(password):
+             
+                     pass
+                     
+          8. 存储MD5的好处是即使运维人员能访问数据库，也无法获知用户的明文口令
+          9. 练习：设计一个验证用户登录的函数，根据用户输入的口令是否正确，返回True或False
+              
+             ```python
+             
+             db = {
+   
+                  'michael': 'e10adc3949ba59abbe56e057f20f883e',
+   
+                  'bob': '878ef96e86145580c38c87f0410ad153',
+   
+                  'alice': '99b1c2188db85afee403b1536010c2c9'
+
+                  }
+                  
+             def login(user, password):
+             
+                     pass
+                     
+          10. 采用MD5存储口令是否就一定安全呢？也不一定。假设你是一个黑客，已经拿到了存储MD5口令的数据库，如何通过MD5反推用户的明文口令呢？
+          11. 暴力破解费事费力，真正的黑客不会这么干     
+          12. 考虑这么个情况，很多用户喜欢用123456，888888，password这些简单的口令，于是，黑客可以事先计算出这些常用口令的MD5值，得到一个反推表
+          
+              'e10adc3949ba59abbe56e057f20f883e': '123456'
+              '21218cca77804d2ba1922c33e0151105': '888888'
+              '5f4dcc3b5aa765d61d8327deb882cf99': 'password'
+              
+          13. 这样，无需破解，只需要对比数据库的MD5，黑客就获得了使用常用口令的用户账号
+          14. 对于用户来讲，当然不要使用过于简单的口令。但是，我们能否在程序设计上对简单口令加强保护呢？
+          15. 由于常用口令的MD5值很容易被计算出来，所以，要确保存储的用户口令不是那些已经被计算出来的常用口令的MD5
+          16. 这一方法通过对原始口令加一个复杂字符串来实现，俗称“加盐”
+          
+              def calc_md5(password):
+              
+                     return fet_md5(passwprd + 'the - Salt')
+                     
+         17. 经过Salt处理的MD5口令，只要Salt不被黑客知道，即使用户输入简单口令，也很难通过MD5反推明文口令
+         18. 但是如果有两个用户都使用了相同的简单口令比如123456，在数据库中，将存储两条相同的MD5值，这说明这两个用户的口令是一样的
+         19. 有没有办法让使用相同口令的用户存储不同的MD5呢？
+         20. 如果假定用户无法修改登录名，就可以通过把登录名作为Salt的一部分来计算MD5，从而实现相同口令的用户也存储不同的MD5
+         21. 练习：根据用户输入的登录名和口令模拟用户注册，计算更安全的MD5：
+
+             db = {}
+             
+             def register(username, password):
+             
+                     db[username] = get_md5(password + username + 'the - Salt')
+                     
+         22. 然后，根据修改后的MD5算法实现用户登录的验证：
+         
+             def login(username, password):
+             
+                     pass
+                     
+                     
+         23. 摘要算法在很多地方都有广泛的应用。要注意摘要算法不是加密算法，不能用于加密（因为无法通过摘要反推明文），只能用于防篡改
+         24. 但是它的单向计算特性决定了可以在不存储明文口令的情况下验证用户口令
+
+
+                     
+                     
+       * itertools 迭代器
         
             1. 'count()', 无限把传入的一个序列重复
         
@@ -312,10 +607,145 @@
        
        * XML
        
+         1. XML虽然比JSON复杂，在Web中应用也不如以前多了，不过仍有很多地方在用，所以，有必要了解如何操作XML
+
        
+       * DOM vs SAX
        
-       * 
+         1. 操作XML有两种方法：DOM和SAX。DOM会把整个XML读入内存，解析为树，因此占用内存大，解析慢，优点是可以任意遍历树的节点
+         2. SAX是流模式，边读边解析，占用内存小，解析快，缺点是我们需要自己处理事件
+         3. 正常情况下，优先考虑SAX，因为DOM实在太占内存
+         4. 在Python中使用SAX解析XML非常简洁，通常我们关心的事件是start_element，end_element和char_data，准备好这3个函数，然后就可以解析xml了
+         5. 举个例子，当SAX解析器读到一个节点时:
+         
+            <a href = "/" >python </a>
+            
+            会产生3个事件：
+
+              1. start_element事件，在读取<a href="/">时；
+
+              2. char_data事件，在读取python时；
        
+              3. end_element事件，在读取</a>时。
+
+            用代码实验一下：
+            
+              ```python
+              
+              from xml.parsers.expat import ParserCreate
+
+              class DefaultSaxHandler(object):
+    
+                     def start_element(self, name, attrs):
+        
+                            print('sax:start_element: %s, attrs: %s' % (name, str(attrs)))
+
+                     def end_element(self, name):
+        
+                            print('sax:end_element: %s' % name)
+
+                     def char_data(self, text):
+   
+                            print('sax:char_data: %s' % text)
+
+               xml = r'''<?xml version="1.0"?>
+
+               <ol>
+    
+                 <li><a href="/python">Python</a></li>
+                 <li><a href="/ruby">Ruby</a></li>
+               </ol>
+
+               '''
+
+               handler = DefaultSaxHandler()
+               parser = ParserCreate()
+                parser.returns_unicode = True
+                parser.StartElementHandler = handler.start_element
+                parser.EndElementHandler = handler.end_element
+                parser.CharacterDataHandler = handler.char_data
+                parser.Parse(xml)
+        
+        5. 当设置returns_unicode为True时，返回的所有element名称和char_data都是unicode，处理国际化更方便
+        6. 需要注意的是读取一大段字符串时，CharacterDataHandler可能被多次调用,所以需要自己保存起来，在EndElementHandler里面再合并
+        7. 除了解析XML外，如何生成XML呢？99%的情况下需要生成的XML结构都是非常简单的
+        8. 因此，最简单也是最有效的生成XML的方法是拼接字符串：
+              
+           ```python
+           
+           L = []
+           
+           L.append(r'<?xml version="1.0"?>')
+
+           L.append(r'<root>')
+
+           L.append(encode('some & data'))
+
+           L.append(r'</root>')
+
+           return ''.join(L)
+
+       
+        9. 如果要生成复杂的XML呢？建议你不要用XML，改成JSON。
+        10. 解析XML时，注意找出自己感兴趣的节点，响应事件时，把节点数据保存起来。解析完毕后，就可以处理数据
+        11. 练习一下解析Yahoo的XML格式的天气预报，获取当天和最近几天的天气：http://weather.yahooapis.com/forecastrss?u=c&w=2151330
+        12. 参数w是城市代码，要查询某个城市代码，可以在weather.yahoo.com搜索城市，浏览器地址栏的URL就包含城市代码
+
+       
+       * HTMLParser
+       
+         1. 如果我们要编写一个搜索引擎，第一步是用爬虫把目标网站的页面抓下来，第二步就是解析该HTML页面，看看里面的内容到底是新闻、图片还是视频
+         2. 假设第一步已经完成了，第二步应该如何解析HTML呢？
+         3. HTML本质上是XML的子集，但是HTML的语法没有XML那么严格，所以不能用标准的DOM或SAX来解析HTML
+         4. 好在Python提供了HTMLParser来非常方便地解析HTML，只需简单几行代码：
+         
+            ```python
+            
+            from HTMLParser import HTMLParser
+
+            from htmlentitydefs import name2codepoint
+
+            class MyHTMLParser(HTMLParser):
+
+    
+              def handle_starttag(self, tag, attrs):
+        
+                     print('<%s>' % tag)
+
+              def handle_endtag(self, tag):
+       
+                     print('</%s>' % tag)
+
+              def handle_startendtag(self, tag, attrs):
+     
+                     print('<%s/>' % tag)
+
+               def handle_data(self, data):
+     
+                     print('data')
+
+               def handle_comment(self, data):
+      
+                     print('<!-- -->')
+
+               def handle_entityref(self, name):
+        
+                     print('&%s;' % name)
+
+   
+              def handle_charref(self, name):
+        
+                     print('&#%s;' % name)
+
+            parser = MyHTMLParser()
+              
+            parser.feed('<html><head></head><body><p>Some <a href=\"#\">html</a> tutorial...<br>END</p></body></html>')
+         
+         
+         5. feed()方法可以多次调用，也就是不一定一次把整个HTML字符串都塞进去，可以一部分一部分塞进去
+         6. 特殊字符有两种，一种是英文表示的&nbsp;，一种是数字表示的&#1234;，这两种字符都可以通过Parser解析出来
+         7. 找一个网页，例如https://www.python.org/events/python-events/，
+         8. 用浏览器查看源码并复制，然后尝试解析一下HTML，输出Python官网发布的会议时间、名称和地点。
          
            
            
